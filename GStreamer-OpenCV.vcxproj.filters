@@ -18,5 +18,13 @@
     <ClCompile Include="GStreamer-OpenCV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cameraman.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cameraman.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
