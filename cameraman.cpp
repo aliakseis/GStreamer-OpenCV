@@ -283,6 +283,6 @@ double CameraMode::fps() const
 std::string CameraMode::getDescr() const
 {
     std::ostringstream s;
-    s << format << " " << w << " x " << h << " @ " << fps() << " [ " << num << " / " << den << " sec ]";
+    s << format << " " << w << " x " << h << " @ " << fps() << " FPS [ " << num << " / " << den << " sec ]";
     return s.str();
 }
