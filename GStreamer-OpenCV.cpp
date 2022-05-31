@@ -34,26 +34,30 @@ OF SUCH DAMAGE.
 
 static int barmenu(const std::vector<std::string>& array, const int row, const int col, const int width, int menulength, int selection = 0)
 {
-    int counter, offset = 0, ky = 0;
+    int offset = 0;
+    int ky = 0;
     char formatstring[7];
     curs_set(0);
 
     const int arraylength = array.size();
 
-    if (arraylength < menulength)
+    if (arraylength < menulength) {
         menulength = arraylength;
+    }
 
-    if (selection > menulength)
+    if (selection > menulength) {
         offset = selection - menulength + 1;
+    }
 
     snprintf(formatstring, sizeof(formatstring) / sizeof(formatstring[0]), "%%-%ds", width); // remove - sign to right-justify the menu items
 
     while (ky != 27)
     {
-        for (counter = 0; counter < menulength; counter++)
+        for (int counter = 0; counter < menulength; counter++)
         {
-            if (counter + offset == selection)
+            if (counter + offset == selection) {
                 attron(A_REVERSE);
+            }
             mvprintw(row + counter, col, formatstring, array[counter + offset].c_str());
             attroff(A_REVERSE);
         }
@@ -66,16 +70,18 @@ static int barmenu(const std::vector<std::string>& array, const int row, const i
             if (selection)
             {
                 selection--;
-                if (selection < offset)
+                if (selection < offset) {
                     offset--;
+                }
             }
             break;
         case KEY_DOWN:
             if (selection < arraylength - 1)
             {
                 selection++;
-                if (selection > offset + menulength - 1)
+                if (selection > offset + menulength - 1) {
                     offset++;
+                }
             }
             break;
         case KEY_HOME:
@@ -88,19 +94,23 @@ static int barmenu(const std::vector<std::string>& array, const int row, const i
             break;
         case KEY_PPAGE:
             selection -= menulength;
-            if (selection < 0)
+            if (selection < 0) {
                 selection = 0;
+            }
             offset -= menulength;
-            if (offset < 0)
+            if (offset < 0) {
                 offset = 0;
+            }
             break;
         case KEY_NPAGE:
             selection += menulength;
-            if (selection > arraylength - 1)
+            if (selection > arraylength - 1) {
                 selection = arraylength - 1;
+            }
             offset += menulength;
-            if (offset > arraylength - menulength)
+            if (offset > arraylength - menulength) {
                 offset = arraylength - menulength;
+            }
             break;
         case 10: //enter
             return selection;
@@ -117,14 +127,14 @@ static int barmenu(const std::vector<std::string>& array, const int row, const i
                 mvaddstr(9, 77, "   ");
                 return -1;
             }
+
+            if (ky == '[')
+            {
+                getch();
+                getch();
+            }
             else
-                if (ky == '[')
-                {
-                    getch();
-                    getch();
-                }
-                else
-                    ungetch(ky);
+                ungetch(ky);
         }
     }
     return -1;
@@ -147,13 +157,14 @@ int main(int argc, char *argv[])
     keypad(stdscr, TRUE);
 
     std::vector<std::string> items;
+    items.reserve(cameraDescriptions.size());
     for (auto& desc : cameraDescriptions)
-    { 
+    {
         items.push_back(desc.description);
     }
 
     const int row = 1;
-    const int col = 5;
+    const int col = 2;
     const int menuwidth = 70;
     const int menulength = 20;
 
